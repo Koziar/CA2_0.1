@@ -7,6 +7,7 @@ and open the template in the editor.
 <html>
     <head>
         <title>Index Page</title>
+        <link rel="stylesheet" type="text/css" href="style/styles.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,10 +17,50 @@ and open the template in the editor.
 
         <div class="container">
             <div class="jumbotron">
-                <h1>Look for people</h1>
-                <p>Just type in a criteria!</p> 
+                <h1>People and Companies</h1>
+                <p>The table displays people and companies</p><div id="box"></div>
             </div>
             <div class="row">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First name</th>
+                            <th>Last name</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Zip Code</th>
+                            <th>City</th>
+                            <th>Company Name</th>
+                            <th>Hobby</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="info">
+                            <td>1</td>
+                            <td>John</td>
+                            <td>Grills</td>
+                            <td>xxx@gmail.com</td>
+                            <td>Norgaardsvej 30</td>
+                            <td>2800</td>
+                            <td>Lyngby</td>
+                            <td>Cphbusiness</td>
+                            <td>Diving </td>
+                        </tr>
+                        <tr class="danger">
+                            <td>2</td>
+                            <td>Maria</td>
+                            <td>Dimitrova</td>
+                            <td>mmmmm@gmail.com</td>
+                            <td>Norgaardsvej 30</td>
+                            <td>2800</td>
+                            <td>Lyngby</td>
+                            <td>Cphbusiness</td>
+                            <td>Dancing</td>
+                        </tr>
+                    </tbody>
+                </table>
+
             </div>
         </div>
     </body>
