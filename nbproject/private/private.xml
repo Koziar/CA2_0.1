@@ -3,7 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/terziev/Desktop/CA2/Projects/CA_v1/web/index.jsp</file>
+            <file>file:/C:/Users/terziev/Documents/GitHub/CA2_0.1/src/conf/persistence.xml</file>
+            <file>file:/C:/Users/terziev/Documents/GitHub/CA2_0.1/test/facade/CompanyFacadeTest.java</file>
+            <file>file:/C:/Users/terziev/Documents/GitHub/CA2_0.1/src/java/facade/CompanyFacadeInterface.java</file>
+            <file>file:/C:/Users/terziev/Documents/GitHub/CA2_0.1/src/java/facade/CompanyFacade.java</file>
         </group>
     </open-files>
 </project-private>

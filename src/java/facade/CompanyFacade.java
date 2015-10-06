@@ -46,6 +46,20 @@ public class CompanyFacade implements CompanyFacadeInterface
             em.close();
         }
     }
+    @Override
+    public Company getCompanyByID(long id)
+    {
+        EntityManager em = getEntityManager();
+        try {
+            Company c = em.find(Company.class, id);
+            if (c == null) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+            return c;
+        } finally {
+            em.close();
+        }
+    }
 
     @Override
     public Company getCompanyByCVR(String cvr)
