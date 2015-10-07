@@ -2,6 +2,7 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -20,7 +21,7 @@ public class Phone implements Serializable {
     private String number;
     private String description;
     
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
     @JoinColumn(name="InfoEntity_ID")
     private InfoEntity infoEntity;
 
@@ -31,6 +32,15 @@ public class Phone implements Serializable {
         this.number = number;
         this.description = description;
     }
+
+    public InfoEntity getInfoEntity() {
+        return infoEntity;
+    }
+
+    public void setInfoEntity(InfoEntity infoEntity) {
+        this.infoEntity = infoEntity;
+    }
+    
 
     public String getNumber() {
         return number;

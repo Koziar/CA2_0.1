@@ -4,7 +4,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("P")
+@DiscriminatorValue("Company")
 public class Company extends InfoEntity {
     //private static final long serialVersionUID = 1L;
     
@@ -13,6 +13,8 @@ public class Company extends InfoEntity {
     private String cvr;
     private int numEmployees;
     private String marketValue;
+    
+    
 
     public Company() {
     }

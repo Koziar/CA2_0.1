@@ -2,7 +2,9 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,18 +31,37 @@ public abstract class InfoEntity implements Serializable {
     
     private String email;
     
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="ADDRESS_ID")
+    @ManyToOne(cascade={CascadeType.PERSIST})
+    @JoinColumn(name="ADDRESS_ID" )
     private Address address;
     
-    @OneToMany(mappedBy = "infoEntity")
-    private List<Phone> phones;
+    @OneToMany(mappedBy = "infoEntity", cascade={CascadeType.PERSIST})
+    private List<Phone> phones = new ArrayList();
 
     public InfoEntity() {
     }
     public InfoEntity(String email) {
         this.email = email;
     }
+    public Phone addPhone(Phone p){
+        p.setInfoEntity(this);
+        phones.add(p);
+        return p;
+    }
+
+    public List<Phone> getPhones() {
+        return phones;
+    }
+    
+    public Address addAddress(Address a){
+        address = a;
+        return address;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+    
     public String getEmail() {
         return email;
     }
