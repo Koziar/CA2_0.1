@@ -30,7 +30,12 @@ public class CompanyFacade implements CompanyFacadeInterface
     @Override
     public List<CityInfo> getListOfZipCodes()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEntityManager();
+        try {
+            return em.createQuery("SELECT ci.zipCode FROM CityInfo ci").getResultList();
+        } finally {
+            em.close();
+        }
     }
 
     @Override
@@ -51,14 +56,25 @@ public class CompanyFacade implements CompanyFacadeInterface
     public Company getCompanyByCVR(String cvr)
     {
         EntityManager em = getEntityManager();
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
+        try {
+            return (Company) em.createQuery("SELECT c FROM Company c WHERE c.cvr = :cvr")
+                    .setParameter("cvr", cvr)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
     }
-    
+
     @Override
     public Company getCompanyByPhone(String phone)
     {
-        EntityManager em = getEntityManager();
+//        EntityManager em = getEntityManager();
+//        try {
+//            return (Company) em.createQuery("SELECT c FROM Company c WHERE  ")
+//                    .setParameter("cPhone",)
+//        } finally {
+//            em.close();
+//        }
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
     }
@@ -66,19 +82,47 @@ public class CompanyFacade implements CompanyFacadeInterface
     @Override
     public Company deleteCompany(long id)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEntityManager();
+        Company c = em.find(Company.class, id);
+        if (c == null) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+        try {
+            em.getTransaction().begin();
+            em.remove(c);
+            em.getTransaction().commit();
+            return c;
+        } finally {
+            em.close();
+        }
+
     }
 
     @Override
-    public Company editCompany(long id)
+    public Company editCompany(Company c)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.refresh(c);
+            em.getTransaction().commit();
+            return em.find(Company.class, c.getId());
+        } finally {
+            em.close();
+        }
     }
 
     @Override
     public List<Company> getCompanyWithEmpMoreThan(int num)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEntityManager();
+        try {
+            return em.createQuery("SELECT c FROM Company c WHERE c.numEmployees > :NumOfEmpl")
+                    .setParameter("NumOfEmpl", num)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
     }
 
 }

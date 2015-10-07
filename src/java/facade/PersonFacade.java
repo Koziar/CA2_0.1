@@ -44,11 +44,25 @@ public class PersonFacade implements PersonFacadeInterface
     }
 
     @Override
-    public Person getPerson(String phone)
+    public Person getPersonByPhone(String phone)
     {
         EntityManager em = getEntityManager();
         try {
-            Person p = em.find(Person.class, phone);
+            return (Person) em.createQuery("SELECT p FROM Person p JOIN p.phones h WHERE h.number = :phoneNumber")
+                    .setParameter("phoneNumber", phone)
+                    .getResultList();
+
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public Person getPersonByID(long id)
+    {
+        EntityManager em = getEntityManager();
+        try {
+            Person p = em.find(Person.class, id);
             if (p == null) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
@@ -67,6 +81,7 @@ public class PersonFacade implements PersonFacadeInterface
             if (p == null) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
+
             em.getTransaction().begin();
             em.remove(p);
             em.getTransaction().commit();
@@ -77,27 +92,31 @@ public class PersonFacade implements PersonFacadeInterface
     }
 
     @Override
-    public Person editPerson(InfoEntity ie)
+    public Person editPerson(Person p)
     {
         EntityManager em = getEntityManager();
         try {
-            Person editP = em.find(Person.class, ie.getId());
-            if (editP == null) {
+
+            if (p == null) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
+            em.getTransaction().begin();
+            em.refresh(p);
+            em.getTransaction().commit();
+            return em.find(Person.class, p.getId());
         } finally {
-
+            em.close();
         }
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public List<Person> getPersonsWithHobby(Hobby hobby)
     {
-
         EntityManager em = getEntityManager();
         try {
-            return em.createQuery("").getResultList();
+            return em.createQuery("SELECT p FROM Person p JOIN p.hobbies h WHERE h.name = :hobbyName")
+                    .setParameter("hobbyName", hobby.getName())
+                    .getResultList();
         } finally {
             em.close();
         }
@@ -108,16 +127,40 @@ public class PersonFacade implements PersonFacadeInterface
     {
         EntityManager em = getEntityManager();
         try {
-            return em.createQuery("").getResultList();
+            return em.createQuery("SELECT p FROM Person p JOIN p.address.cityInfo c WHERE c.city = :cityName")
+                    .setParameter("cityName", city.getCity())
+                    .getResultList();
+
         } finally {
             em.close();
         }
     }
 
     @Override
-    public Integer CountOfPeopleWithHobby(Hobby hobby)
+    public Integer CountOfPersonsWithHobby(Hobby hobby)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEntityManager();
+        try {
+            List<Person> list = em.createQuery("SELECT p FROM Person p JOIN p.hobbies h WHERE h.name = :hobbyName")
+                    .setParameter("hobbyName", hobby.getName())
+                    .getResultList();
+
+            return list.size();
+
+        } finally {
+
+        }
+    }
+
+    @Override
+    public List<Person> getPersons()
+    {
+        EntityManager em = getEntityManager();
+        try{
+            return em.createQuery("SELECT p FROM Person p").getResultList();
+        }finally{
+            em.close();
+        }
     }
 
 }

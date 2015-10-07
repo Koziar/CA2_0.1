@@ -16,16 +16,20 @@ public interface PersonFacadeInterface
 
     public Person addPerson(Person p);
 
-    public Person getPerson(String phone);
+    public Person getPersonByPhone(String phone);
+    //This should provide a Person with all details
+    public Person getPersonByID(long id);
+    
+    public List<Person> getPersons();
 
     public Person deletePerson(long id);
 
-    public Person editPerson(InfoEntity ie);
+    public Person editPerson(Person p);
 
     public List<Person> getPersonsWithHobby(Hobby hobby);
 
     public List<Person> getPersonsWithCity(CityInfo city);
 
-    public Integer CountOfPeopleWithHobby(Hobby hobby);
+    public Integer CountOfPersonsWithHobby(Hobby hobby);
 
 }

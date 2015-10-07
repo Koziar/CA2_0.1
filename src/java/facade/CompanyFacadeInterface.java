@@ -22,7 +22,7 @@ public interface CompanyFacadeInterface
 
     public Company deleteCompany(long id);
 
-    public Company editCompany(long id);
+    public Company editCompany(Company c);
 
     public List<Company> getCompanyWithEmpMoreThan(int num);
 
