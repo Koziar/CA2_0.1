@@ -15,8 +15,6 @@ public interface CompanyFacadeInterface
     public List<CityInfo> getListOfZipCodes();
 
     public Company addCompany(Company c);
-    
-    public Company getCompanyByID(long id);
 
     public Company getCompanyByCVR(String cvr);
 
@@ -24,7 +22,7 @@ public interface CompanyFacadeInterface
 
     public Company deleteCompany(long id);
 
-    public Company editCompany(long id);
+    public Company editCompany(Company c);
 
     public List<Company> getCompanyWithEmpMoreThan(int num);
 
