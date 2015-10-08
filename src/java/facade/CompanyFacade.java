@@ -3,6 +3,7 @@ package facade;
 
 import entity.Company;
 import entity.CityInfo;
+import exception.CompanyNotFoundException;
 import java.util.List;
 //import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityManager;
@@ -66,7 +67,7 @@ public class CompanyFacade implements CompanyFacadeInterface
     }
 
     @Override
-    public Company getCompanyByPhone(String phone)
+    public Company getCompanyByPhone(String phone)//If this is fixed -> add trows ConpanyNotFoundException
     {
 //        EntityManager em = getEntityManager();
 //        try {
@@ -80,12 +81,12 @@ public class CompanyFacade implements CompanyFacadeInterface
     }
 
     @Override
-    public Company deleteCompany(long id)
+    public Company deleteCompany(long id)throws CompanyNotFoundException
     {
         EntityManager em = getEntityManager();
         Company c = em.find(Company.class, id);
         if (c == null) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new CompanyNotFoundException("Company not found");
         }
         try {
             em.getTransaction().begin();

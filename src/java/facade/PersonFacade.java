@@ -5,6 +5,7 @@ import entity.Person;
 import entity.Hobby;
 import entity.CityInfo;
 import entity.InfoEntity;
+import exception.PersonNotFoundException;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityManager;
@@ -44,27 +45,27 @@ public class PersonFacade implements PersonFacadeInterface
     }
 
     @Override
-    public Person getPersonByPhone(String phone)
+    public Person getPersonByPhone (String phone)
     {
         EntityManager em = getEntityManager();
         try {
             return (Person) em.createQuery("SELECT p FROM Person p JOIN p.phones h WHERE h.number = :phoneNumber")
                     .setParameter("phoneNumber", phone)
                     .getResultList();
-
+            
         } finally {
             em.close();
         }
     }
 
     @Override
-    public Person getPersonByID(long id)
+    public Person getPersonByID(long id) throws PersonNotFoundException
     {
         EntityManager em = getEntityManager();
         try {
             Person p = em.find(Person.class, id);
             if (p == null) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                throw new PersonNotFoundException("No person with that ID found");
             }
             return p;
         } finally {
@@ -73,13 +74,13 @@ public class PersonFacade implements PersonFacadeInterface
     }
 
     @Override
-    public Person deletePerson(long id)
+    public Person deletePerson(long id) throws PersonNotFoundException
     {
         EntityManager em = getEntityManager();
         try {
             Person p = em.find(Person.class, id);
             if (p == null) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                throw new PersonNotFoundException("No person with that ID exist, and you cannot delete a person that doesn't exist");
             }
 
             em.getTransaction().begin();
@@ -92,13 +93,13 @@ public class PersonFacade implements PersonFacadeInterface
     }
 
     @Override
-    public Person editPerson(Person p)
+    public Person editPerson(Person p)throws PersonNotFoundException
     {
         EntityManager em = getEntityManager();
         try {
 
             if (p == null) {
-                throw new UnsupportedOperationException("Not supported yet.");
+                throw new PersonNotFoundException("Person not found");
             }
             em.getTransaction().begin();
             em.refresh(p);

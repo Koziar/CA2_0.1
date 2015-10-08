@@ -3,6 +3,7 @@ package facade;
 
 import entity.Company;
 import entity.CityInfo;
+import exception.CompanyNotFoundException;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public interface CompanyFacadeInterface
 
     public Company getCompanyByPhone(String phone);
 
-    public Company deleteCompany(long id);
+    public Company deleteCompany(long id)throws CompanyNotFoundException;
 
     public Company editCompany(Company c);
 
