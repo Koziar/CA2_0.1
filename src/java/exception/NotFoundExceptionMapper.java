@@ -30,8 +30,8 @@ public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundExceptio
 
     @Override
     public Response toResponse(NotFoundException ex) {
-        boolean isDebug = context.getInitParameter("debug").toLowerCase().equals("true");
-        ErrorMessage em = new ErrorMessage(ex, 404, isDebug);
+        //boolean isDebug = context.getInitParameter("debug").toLowerCase().equals("true");
+        ErrorMessage em = new ErrorMessage(ex, 404);//, isDebug
         return Response.status(Response.Status.NOT_FOUND).entity(gson.toJson(em)).type(MediaType.APPLICATION_JSON).build();
 
     }

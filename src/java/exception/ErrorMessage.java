@@ -28,6 +28,11 @@ public class ErrorMessage {
             this.stackTrace = sw.toString();
         }
     }
+    public ErrorMessage(Throwable ex, int code) {
+        this.code = code;
+        this.message = ex.getMessage();
+
+    }
 
     public String getMessage() {
         return message;
