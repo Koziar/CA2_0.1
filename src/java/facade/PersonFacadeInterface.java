@@ -17,15 +17,15 @@ public interface PersonFacadeInterface
 
     public Person addPerson(Person p);
 
-    public Person getPersonByPhone(String phone);//add throws PersonNotFoundException; if facade is changed
+    public Person getPersonByPhone(String phone);
     //This should provide a Person with all details
-    public Person getPersonByID(long id) throws PersonNotFoundException;
+    public Person getPersonByID(long id);
     
     public List<Person> getPersons();
 
-    public Person deletePerson(long id) throws PersonNotFoundException;
+    public Person deletePerson(long id);
 
-    public Person editPerson(Person p) throws PersonNotFoundException;
+    public Person editPerson(Person p);
 
     public List<Person> getPersonsWithHobby(Hobby hobby);
 

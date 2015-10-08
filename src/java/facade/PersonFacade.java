@@ -1,8 +1,6 @@
 
 package facade;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import entity.Person;
 import entity.Hobby;
 import entity.CityInfo;
@@ -10,8 +8,6 @@ import exception.PersonNotFoundException;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
 /**
  *
@@ -62,14 +58,12 @@ public class PersonFacade implements PersonFacadeInterface
     }
 
     @Override
-    public Person getPersonByID(long id)  throws PersonNotFoundException
+    public Person getPersonByID(long id)
     {
         EntityManager em = getEntityManager();
         try {
             Person p = em.find(Person.class, id);
-            if (p == null) {
-                throw new PersonNotFoundException("No person with that ID found");
-            }
+            
             return p;
         } finally {
             em.close();
@@ -77,14 +71,12 @@ public class PersonFacade implements PersonFacadeInterface
     }
 
     @Override
-    public Person deletePerson(long id) throws PersonNotFoundException
+    public Person deletePerson(long id)
     {
         EntityManager em = getEntityManager();
         try {
             Person p = em.find(Person.class, id);
-            if (p == null) {
-                throw new PersonNotFoundException("No person with that ID exist, and you cannot delete a person that doesn't exist");
-            }
+            
 
             em.getTransaction().begin();
             em.remove(p);
@@ -96,14 +88,12 @@ public class PersonFacade implements PersonFacadeInterface
     }
 
     @Override
-    public Person editPerson(Person p)throws PersonNotFoundException
+    public Person editPerson(Person p)
     {
         EntityManager em = getEntityManager();
         try {
 
-            if (p == null) {
-                throw new PersonNotFoundException("Person not found");
-            }
+            
             em.getTransaction().begin();
             em.refresh(p);
             em.getTransaction().commit();

@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import entity.Hobby;
 import entity.Person;
 import entity.Phone;
+import exception.PersonNotFoundException;
 import facade.PersonFacade;
 import java.util.List;
 import javax.persistence.Persistence;
@@ -100,11 +101,13 @@ public class PersonResource
     @GET
     @Path("complete/{id}")
     @Produces("application/json")
-    public Response getSpecificPersonDetails(@PathParam("id") long id)
+    public Response getSpecificPersonDetails(@PathParam("id") long id) throws PersonNotFoundException
     {
         JsonObject json = new JsonObject();
         Person person = facade.getPersonByID(id);
-
+        if (person == null) {
+            throw new PersonNotFoundException("No person with that ID found");
+        }
         JsonArray jaPhones = new JsonArray();
         JsonArray jaHobbies = new JsonArray();
 
@@ -142,10 +145,14 @@ public class PersonResource
     @GET
     @Path("contactinfo")
     @Produces("application/json")
-    public Response getcontactInfoForPersons()
+    public Response getcontactInfoForPersons() throws PersonNotFoundException
     {
         List<Person> personsList = facade.getPersons();
-
+        if (personsList == null) {
+            throw new PersonNotFoundException("No person with that ID found");
+        } else if (personsList.isEmpty()) {
+            throw new PersonNotFoundException("No person with that ID found");
+        }
         JsonArray personsArray = new JsonArray();
         JsonArray jaPhones = new JsonArray();
 
@@ -175,10 +182,12 @@ public class PersonResource
     @GET
     @Path("contactinfo/{id}")
     @Produces("application/json")
-    public Response getcontactInfoForSpecificPerson(@PathParam("id") long id)
+    public Response getcontactInfoForSpecificPerson(@PathParam("id") long id) throws PersonNotFoundException
     {
         Person person = facade.getPersonByID(id);
-
+        if (person == null) {
+            throw new PersonNotFoundException("No person with that ID found");
+        }
         JsonArray jaPhones = new JsonArray();
 
         JsonObject json = new JsonObject();
@@ -204,18 +213,22 @@ public class PersonResource
     @GET
     @Path("complete/hobby/{hobby}")
     @Produces("application/json")
-    public Response getInfoForPersonsByHobby(@PathParam("hobby") String hobby)
+    public Response getInfoForPersonsByHobby(@PathParam("hobby") String hobby) throws PersonNotFoundException
     {
         List<Person> personsList = facade.getPersons();
         JsonArray personsArray = new JsonArray();
-
+        if (personsList == null) {
+            throw new PersonNotFoundException("No person with that hobby found");
+        } else if (personsList.isEmpty()) {
+            throw new PersonNotFoundException("No person with that hobby found");
+        }
         for (Person person : personsList) {
             JsonObject json = new JsonObject();
             JsonArray jaHobbies = new JsonArray();
             JsonArray jaPhones = new JsonArray();
 
             for (Hobby h : person.getHobbies()) {
-                if (h.getName().equals(firstToCapital(hobby))) {
+                if (h.getName().equalsIgnoreCase(hobby)) {
 
                     JsonObject joPhone = new JsonObject();
                     for (Phone pOwned : person.getPhones()) {
@@ -258,18 +271,22 @@ public class PersonResource
     @GET
     @Path("complete/phone/{phone}")
     @Produces("application/json")
-    public Response getInfoForPersonsByPhone(@PathParam("phone") String phone)
+    public Response getInfoForPersonsByPhone(@PathParam("phone") String phone) throws PersonNotFoundException
     {
         List<Person> personsList = facade.getPersons();
         JsonArray personsArray = new JsonArray();
-
+        if (personsList == null) {
+            throw new PersonNotFoundException("No person with that phone found");
+        } else if (personsList.isEmpty()) {
+            throw new PersonNotFoundException("No person with that phone found");
+        }
         for (Person person : personsList) {
             JsonObject json = new JsonObject();
             JsonArray jaHobbies = new JsonArray();
             JsonArray jaPhones = new JsonArray();
 
             for (Phone p : person.getPhones()) {
-                if (p.getNumber().equals(phone)) {
+                if (p.getNumber().equalsIgnoreCase(phone)) {
 
                     JsonObject joPhone = new JsonObject();
                     for (Phone pOwned : person.getPhones()) {
@@ -308,18 +325,22 @@ public class PersonResource
     @GET
     @Path("complete/city/{city}")
     @Produces("application/json")
-    public Response getInfoForPersonsBycity(@PathParam("city") String city)
+    public Response getInfoForPersonsBycity(@PathParam("city") String city) throws PersonNotFoundException
     {
         List<Person> personsList = facade.getPersons();
         JsonArray personsArray = new JsonArray();
-
+        if (personsList == null) {
+            throw new PersonNotFoundException("No person with that city found");
+        } else if (personsList.isEmpty()) {
+            throw new PersonNotFoundException("No person with that city found");
+        }
         for (Person person : personsList) {
             JsonObject json = new JsonObject();
             JsonArray jaHobbies = new JsonArray();
             JsonArray jaPhones = new JsonArray();
 
             for (Phone p : person.getPhones()) {
-                if (p.getInfoEntity().getAddress().getCityInfo().getCity().equals(firstToCapital(city))) {
+                if (p.getInfoEntity().getAddress().getCityInfo().getCity().equalsIgnoreCase(city)) {
 
                     JsonObject joPhone = new JsonObject();
                     for (Phone pOwned : person.getPhones()) {
@@ -367,21 +388,5 @@ public class PersonResource
     {
     }
 
-    public static String firstToCapital(String inputString)
-    {
-        String result = "";
-       if (inputString.length() == 0) {
-           return result;
-       }
-       char firstChar = inputString.charAt(0);
-       char firstCharToUpperCase = Character.toUpperCase(firstChar);
-       result = result + firstCharToUpperCase;
-       for (int i = 1; i < inputString.length(); i++) {
-           char currentChar = inputString.charAt(i);
-           char currentCharToLowerCase = Character.toLowerCase(currentChar);
-               result = result + currentCharToLowerCase;
-       }
-       return result;
-    }
 
 }
