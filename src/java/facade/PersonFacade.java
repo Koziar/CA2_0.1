@@ -1,14 +1,17 @@
 
 package facade;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import entity.Person;
 import entity.Hobby;
 import entity.CityInfo;
-import entity.InfoEntity;
 import exception.PersonNotFoundException;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -45,21 +48,21 @@ public class PersonFacade implements PersonFacadeInterface
     }
 
     @Override
-    public Person getPersonByPhone (String phone)
+    public Person getPersonByPhone(String phone)
     {
         EntityManager em = getEntityManager();
         try {
             return (Person) em.createQuery("SELECT p FROM Person p JOIN p.phones h WHERE h.number = :phoneNumber")
                     .setParameter("phoneNumber", phone)
                     .getResultList();
-            
+
         } finally {
             em.close();
         }
     }
 
     @Override
-    public Person getPersonByID(long id) throws PersonNotFoundException
+    public Person getPersonByID(long id)  throws PersonNotFoundException
     {
         EntityManager em = getEntityManager();
         try {
@@ -133,7 +136,7 @@ public class PersonFacade implements PersonFacadeInterface
                     .getResultList();
 
         } finally {
-            em.close();
+                    em.close();
         }
     }
 
@@ -157,9 +160,12 @@ public class PersonFacade implements PersonFacadeInterface
     public List<Person> getPersons()
     {
         EntityManager em = getEntityManager();
-        try{
-            return em.createQuery("SELECT p FROM Person p").getResultList();
-        }finally{
+        try {
+            List<Person> persons = em.createQuery("SELECT i FROM InfoEntity i WHERE TYPE(i) = :entityType")
+                    .setParameter("entityType", Person.class)
+                    .getResultList();
+            return persons;
+        } finally {
             em.close();
         }
     }
