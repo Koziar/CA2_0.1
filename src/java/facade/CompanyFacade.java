@@ -1,36 +1,33 @@
-
 package facade;
 
 import entity.Company;
 import entity.CityInfo;
-import exception.CompanyNotFoundException;
+import entity.Phone;
+import java.util.ArrayList;
 import java.util.List;
 //import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 
 /**
  *
  * @author wookash
  */
-public class CompanyFacade implements CompanyFacadeInterface
-{
+public class CompanyFacade implements CompanyFacadeInterface {
 
     private EntityManagerFactory emf;
 
-    public CompanyFacade(EntityManagerFactory e)
-    {
+    public CompanyFacade(EntityManagerFactory e) {
         emf = e;
     }
 
-    public EntityManager getEntityManager()
-    {
+    public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
     @Override
-    public List<CityInfo> getListOfZipCodes()
-    {
+    public List<CityInfo> getListOfZipCodes() {
         EntityManager em = getEntityManager();
         try {
             return em.createQuery("SELECT ci.zipCode FROM CityInfo ci").getResultList();
@@ -40,8 +37,7 @@ public class CompanyFacade implements CompanyFacadeInterface
     }
 
     @Override
-    public Company addCompany(Company c)
-    {
+    public Company addCompany(Company c) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
@@ -54,39 +50,55 @@ public class CompanyFacade implements CompanyFacadeInterface
     }
 
     @Override
-    public Company getCompanyByCVR(String cvr)
-    {
+    public List<Company> getCompaniesByCVR(String cvr) {
         EntityManager em = getEntityManager();
+        List<Company> companiesWithCvr = new ArrayList();
         try {
-            return (Company) em.createQuery("SELECT c FROM Company c WHERE c.cvr = :cvr")
-                    .setParameter("cvr", cvr)
+            List<Company> companies = em.createQuery("SELECT i FROM InfoEntity i WHERE TYPE(i) = :entityType")
+                    .setParameter("entityType", Company.class)
                     .getResultList();
+
+            for (Company c : companies) {
+                if (c.getCvr().equals(cvr)) {
+
+                    companiesWithCvr.add(c);
+                }
+            }
         } finally {
             em.close();
         }
+        return companiesWithCvr;
     }
 
     @Override
-    public Company getCompanyByPhone(String phone)//If this is fixed -> add trows ConpanyNotFoundException
-    {
-//        EntityManager em = getEntityManager();
-//        try {
-//            return (Company) em.createQuery("SELECT c FROM Company c WHERE  ")
-//                    .setParameter("cPhone",)
-//        } finally {
-//            em.close();
-//        }
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Company> getCompaniesByPhone(String phone) {
+        EntityManager em = getEntityManager();
+        List<Company> companiesWithPhone = new ArrayList();
+        try {
+            List<Company> companies = em.createQuery("SELECT i FROM InfoEntity i WHERE TYPE(i) = :entityType")
+                    .setParameter("entityType", Company.class)
+                    .getResultList();
+
+            for (Company c : companies) {
+                for (Phone p : c.getPhones()) {
+                    if (p.getNumber().equals(phone)) {
+                        companiesWithPhone.add(c);
+                    }
+                }
+            }
+        } finally {
+            em.close();
+        }
+        return companiesWithPhone;
 
     }
 
     @Override
-    public Company deleteCompany(long id)throws CompanyNotFoundException
-    {
+    public Company deleteCompany(long id) {
         EntityManager em = getEntityManager();
         Company c = em.find(Company.class, id);
         if (c == null) {
-            throw new CompanyNotFoundException("Company not found");
+            throw new UnsupportedOperationException("Not supported yet.");
         }
         try {
             em.getTransaction().begin();
@@ -100,8 +112,7 @@ public class CompanyFacade implements CompanyFacadeInterface
     }
 
     @Override
-    public Company editCompany(Company c)
-    {
+    public Company editCompany(Company c) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
@@ -114,8 +125,7 @@ public class CompanyFacade implements CompanyFacadeInterface
     }
 
     @Override
-    public List<Company> getCompanyWithEmpMoreThan(int num)
-    {
+    public List<Company> getCompanyWithEmpMoreThan(int num) {
         EntityManager em = getEntityManager();
         try {
             return em.createQuery("SELECT c FROM Company c WHERE c.numEmployees > :NumOfEmpl")
@@ -124,6 +134,36 @@ public class CompanyFacade implements CompanyFacadeInterface
         } finally {
             em.close();
         }
+    }
+
+    @Override
+    public List<Company> getCompanies() {
+
+        EntityManager em = getEntityManager();
+        try {
+            List<Company> companies = em.createQuery("SELECT i FROM InfoEntity i WHERE TYPE(i) = :entityType")
+                    .setParameter("entityType", Company.class)
+                    .getResultList();
+            return companies;
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public Company getCompanyById(long id) {
+
+        EntityManager em = getEntityManager();
+        try {
+            Company c = em.find(Company.class, id);
+            if (c == null) {
+                //throw new PersonNotFoundException("No Person found with provided id");
+            }
+            return c;
+        } finally {
+            em.close();
+        }
+
     }
 
 }

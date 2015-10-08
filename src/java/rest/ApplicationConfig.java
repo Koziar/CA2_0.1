@@ -28,6 +28,10 @@ public class ApplicationConfig extends Application
      */
     private void addRestResourceClasses(Set<Class<?>> resources)
     {
+        resources.add(exception.CompanyNotFoundMapper.class);
+        resources.add(exception.InternalExceptionMapper.class);
+        resources.add(exception.NotFoundExceptionMapper.class);
+        resources.add(exception.PersonNotFoundMapper.class);
         resources.add(rest.CompanyResource.class);
         resources.add(rest.PersonResource.class);
     }

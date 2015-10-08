@@ -3,7 +3,6 @@ package facade;
 
 import entity.Company;
 import entity.CityInfo;
-import exception.CompanyNotFoundException;
 import java.util.List;
 
 /**
@@ -16,12 +15,16 @@ public interface CompanyFacadeInterface
     public List<CityInfo> getListOfZipCodes();
 
     public Company addCompany(Company c);
+    
+    public List<Company> getCompanies();
+    
+    public Company getCompanyById(long id);
 
-    public Company getCompanyByCVR(String cvr);
+    public List<Company> getCompaniesByCVR(String cvr);
 
-    public Company getCompanyByPhone(String phone);
+    public List<Company> getCompaniesByPhone(String phone);
 
-    public Company deleteCompany(long id)throws CompanyNotFoundException;
+    public Company deleteCompany(long id);
 
     public Company editCompany(Company c);
 
