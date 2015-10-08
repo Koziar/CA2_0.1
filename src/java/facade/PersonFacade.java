@@ -36,7 +36,7 @@ public class PersonFacade implements PersonFacadeInterface
             em.getTransaction().begin();
             em.persist(p);
             em.getTransaction().commit();
-            return p;
+            return em.find(Person.class, p.getId());
         } finally {
             em.close();
         }

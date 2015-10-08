@@ -4,12 +4,17 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import entity.Address;
+import entity.CityInfo;
 import entity.Hobby;
 import entity.Person;
 import entity.Phone;
 import exception.PersonNotFoundException;
 import facade.PersonFacade;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Persistence;
 import javax.ws.rs.core.Context;
@@ -17,6 +22,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
@@ -63,6 +69,7 @@ public class PersonResource
 
             JsonArray jaPhones = new JsonArray();
             JsonObject joPhone = new JsonObject();
+            
             for (Phone phone : person.getPhones()) {
 
                 joPhone.addProperty("number", phone.getNumber());
@@ -83,6 +90,7 @@ public class PersonResource
             json.addProperty("firstName", person.getFirstName());
             json.addProperty("lastName", person.getLastName());
             json.addProperty("email", person.getEmail());
+            
             json.add("phones", jaPhones);
             json.addProperty("street", person.getAddress().getStreet());
             json.addProperty("city", person.getAddress().getCityInfo().getCity());
@@ -376,6 +384,92 @@ public class PersonResource
         return Response.ok(gson.toJson(personsArray)).build();
     }
 
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    public Response createNewPerson(String json)
+    {
+        JsonObject jo = new JsonParser().parse(json).getAsJsonObject();
+        String newFirstName = jo.get("firstName").getAsString();
+        String newLastName = jo.get("lastName").getAsString();
+        String newEmail = jo.get("email").getAsString();
+        JsonArray phonesArr = jo.getAsJsonArray("phones");
+        ArrayList<Phone> phones = new ArrayList();
+        for (JsonElement pjo : phonesArr) {
+            Phone newP = new Phone(
+                    pjo.getAsJsonObject().get("number").getAsString(),
+                    pjo.getAsJsonObject().get("description").getAsString()
+            );
+            phones.add(newP);
+        }
+        String newStreet = jo.get("street").getAsString();
+        String newCity = jo.get("city").getAsString();
+        int newZipcode = jo.get("zipcode").getAsInt();
+        String newAdditionalInfo = jo.get("additionalInfo").getAsString();
+        JsonArray hobbyArr = jo.getAsJsonArray("hobbies");
+        ArrayList<Hobby> hobbies = new ArrayList();
+        for (JsonElement hjo : hobbyArr) {
+            Hobby newH = new Hobby(
+                    hjo.getAsJsonObject().get("name").getAsString(),
+                    hjo.getAsJsonObject().get("description").getAsString());
+            hobbies.add(newH);
+        }
+////////////////////////////////////////////////////////////////
+        Person newP = new Person(newFirstName, newLastName, newEmail);
+        Address newA = new Address(newStreet, newAdditionalInfo);
+        CityInfo newCI = new CityInfo(newZipcode, newCity);
+        newA.addCityInfo(newCI);
+        
+        for (Hobby hobby : hobbies) {
+            newP.addHobby(hobby);
+        }
+        for (Phone phone : phones) {
+            newP.addPhone(phone);
+        }
+        newP.addAddress(newA);
+        
+        Person p = facade.addPerson(newP);
+
+        //
+        JsonObject jsonE = new JsonObject();
+        if (p == null) {
+            //throw new PersonNotFoundException("No person with that ID found");
+        }
+        JsonArray jaPhones = new JsonArray();
+        JsonArray jaHobbies = new JsonArray();
+
+        JsonObject joPhone = new JsonObject();
+        for (Phone phone : p.getPhones()) {
+
+            joPhone.addProperty("number", phone.getNumber());
+
+            joPhone.addProperty("description", phone.getDescription());
+            jaPhones.add(joPhone);
+        }
+
+        JsonObject joHobbie = new JsonObject();
+        for (Hobby hobby : p.getHobbies()) {
+
+            joHobbie.addProperty("name", hobby.getName());
+            joHobbie.addProperty("description", hobby.getDescription());
+            jaHobbies.add(joHobbie);
+        }
+
+        jsonE.addProperty("id", p.getId());
+        jsonE.addProperty("firstName", p.getFirstName());
+        jsonE.addProperty("lastName", p.getLastName());
+        jsonE.addProperty("email", p.getEmail());
+        jsonE.add("phones", jaPhones);
+        jsonE.addProperty("street", p.getAddress().getStreet());
+        jsonE.addProperty("city", p.getAddress().getCityInfo().getCity());
+        jsonE.addProperty("zipcode", p.getAddress().getCityInfo().getZipCode());
+        jsonE.addProperty("additionalInfo", p.getAddress().getAdditionalInfo());
+        jsonE.add("hobbies", jaHobbies);
+
+        //
+        return Response.ok(gson.toJson(jsonE)).build();
+    }
+
     /**
      * PUT method for updating or creating an instance of PersonResource
      *
@@ -387,6 +481,5 @@ public class PersonResource
     public void putJson(String content)
     {
     }
-
 
 }
