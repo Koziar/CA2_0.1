@@ -7,57 +7,53 @@ and open the template in the editor.
 <html>
     <head>
         <title>Index Page</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--
         <link rel="stylesheet" type="text/css" href="style/styles.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+        <script src="js/jsCompany.js" type="text/javascript"></script>
+
     </head>
     <body>
-
         <div class="container">
             <div class="jumbotron">
+                <div id="authors"> Georgina Thomsen, Lukasz Koziarski, Aleksandar Terziev </div>
+                <div id="class">COS</div>
+                <div id= "group"> Group 4 </div>
                 <h1>People and Companies</h1>
                 <p>The table displays people and companies</p><div id="box"></div>
+                <a href="editor.html">Go to the Edit Page</a>
             </div>
             <div class="row">
-                <table class="table">
+                <div id="error" class="alert alert-danger" role="alert" style="width: 50%;margin-top: 1em;">
+                    Uuuuups
+                </div>
+            </div>
+            <div class="row">
+                <button id="loadCompanies">Load Companies</button>
+            </div>
+
+            <div class="row">
+                <table class="table" id="companyTable">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>First name</th>
-                            <th>Last name</th>
-                            <th>Email</th>
-                            <th>Address</th>
-                            <th>Zip Code</th>
+                            <th>Name</th>
+                            <th>CVR</th>
                             <th>City</th>
-                            <th>Company Name</th>
-                            <th>Hobby</th>
+                            <th>Zip Code</th>
+                            <th>Street</th>
+                            <th>Email</th>
+                            <th>Phone</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="info">
-                            <td>1</td>
-                            <td>John</td>
-                            <td>Grills</td>
-                            <td>xxx@gmail.com</td>
-                            <td>Norgaardsvej 30</td>
-                            <td>2800</td>
-                            <td>Lyngby</td>
-                            <td>Cphbusiness</td>
-                            <td>Diving </td>
-                        </tr>
-                        <tr class="danger">
-                            <td>2</td>
-                            <td>Maria</td>
-                            <td>Dimitrova</td>
-                            <td>mmmmm@gmail.com</td>
-                            <td>Norgaardsvej 30</td>
-                            <td>2800</td>
-                            <td>Lyngby</td>
-                            <td>Cphbusiness</td>
-                            <td>Dancing</td>
-                        </tr>
+                        
                     </tbody>
                 </table>
 
