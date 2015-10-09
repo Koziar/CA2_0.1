@@ -7,7 +7,7 @@ public class Tester {
     
     public static void main(String[] args) {
         
-        Persistence.generateSchema("ca_devPU", null);
+        Persistence.generateSchema("DeploymentConfiguration.PU_NAME", null);
     }
     
 }

@@ -6,6 +6,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import deploy.DeploymentConfiguration;
 import entity.Address;
 import entity.CityInfo;
 import entity.Company;
@@ -32,7 +33,7 @@ import javax.ws.rs.core.Response;
 public class CompanyResource {
 
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    CompanyFacade facade = new CompanyFacade(Persistence.createEntityManagerFactory("ca_devPU"));
+    CompanyFacade facade = new CompanyFacade(Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME));
 
     @Context
     private UriInfo context;

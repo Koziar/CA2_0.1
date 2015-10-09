@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import deploy.DeploymentConfiguration;
 import entity.Address;
 import entity.CityInfo;
 import entity.Hobby;
@@ -38,7 +39,7 @@ public class PersonResource
 {
 
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    PersonFacade facade = new PersonFacade(Persistence.createEntityManagerFactory("ca_devPU"));
+    PersonFacade facade = new PersonFacade(Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME));
 
     @Context
     private UriInfo context;

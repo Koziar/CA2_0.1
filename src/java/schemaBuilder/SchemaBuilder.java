@@ -5,6 +5,7 @@
  */
 package schemaBuilder;
 
+import deploy.DeploymentConfiguration;
 import entity.Address;
 import entity.CityInfo;
 import entity.Company;
@@ -28,8 +29,8 @@ public class SchemaBuilder {
 
     public static void main(String[] args) {
 
-        Persistence.generateSchema("ca_devPU", null);
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ca_devPU");
+        Persistence.generateSchema(DeploymentConfiguration.PU_NAME, null);
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         EntityManager em = emf.createEntityManager();
         SchemaBuilder sm = new SchemaBuilder();
         sm.getRandomFName();

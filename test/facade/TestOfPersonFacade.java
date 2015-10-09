@@ -6,6 +6,7 @@
 
 package facade;
 
+import deploy.DeploymentConfiguration;
 import entity.CityInfo;
 import entity.Hobby;
 import entity.Person;
@@ -23,7 +24,7 @@ import static org.junit.Assert.*;
 public class TestOfPersonFacade
 {
 
-    PersonFacade facade = new PersonFacade(Persistence.createEntityManagerFactory("ca_devPU"));
+    PersonFacade facade = new PersonFacade(Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME));
     private long idForLukasz = 1;
     
     public TestOfPersonFacade()

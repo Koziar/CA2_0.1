@@ -3,11 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/terziev/Documents/GitHub/CA2_0.1/src/conf/persistence.xml</file>
+            <file>file:/C:/Users/terziev/Documents/GitHub/CA2_0.1/web/WEB-INF/web.xml</file>
             <file>file:/C:/Users/terziev/Documents/GitHub/CA2_0.1/src/java/rest/CompanyResource.java</file>
+            <file>file:/C:/Users/terziev/Documents/GitHub/CA2_0.1/test/facade/CompanyFacadeTest.java</file>
+            <file>file:/C:/Users/terziev/Documents/GitHub/CA2_0.1/src/java/test/Tester.java</file>
+            <file>file:/C:/Users/terziev/Documents/GitHub/CA2_0.1/src/java/rest/PersonResource.java</file>
+            <file>file:/C:/Users/terziev/Documents/GitHub/CA2_0.1/test/facade/TestOfPersonFacade.java</file>
+            <file>file:/C:/Users/terziev/Documents/GitHub/CA2_0.1/src/java/schemaBuilder/SchemaBuilder.java</file>
+            <file>file:/C:/Users/terziev/Documents/GitHub/CA2_0.1/src/java/deploy/DeploymentConfiguration.java</file>
             <file>file:/C:/Users/terziev/Documents/GitHub/CA2_0.1/src/java/facade/CompanyFacade.java</file>
             <file>file:/C:/Users/terziev/Documents/GitHub/CA2_0.1/web/editor.html</file>
             <file>file:/C:/Users/terziev/Documents/GitHub/CA2_0.1/web/index.html</file>
             <file>file:/C:/Users/terziev/Documents/GitHub/CA2_0.1/web/js/jsCompany.js</file>
+            <file>file:/C:/Users/terziev/Documents/GitHub/CA2_0.1/src/java/facade/PersonFacade.java</file>
         </group>
     </open-files>
 </project-private>

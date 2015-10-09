@@ -1,5 +1,6 @@
 package facade;
 
+import deploy.DeploymentConfiguration;
 import entity.Address;
 import entity.CityInfo;
 import entity.Company;
@@ -22,7 +23,7 @@ import org.junit.Before;
 public class CompanyFacadeTest {
 
     private CompanyFacade facade;
-    private final String puName = "ca_devPU";
+    private final String puName = DeploymentConfiguration.PU_NAME;
     private long idForFacebook = -1;
 
     public CompanyFacadeTest() {
