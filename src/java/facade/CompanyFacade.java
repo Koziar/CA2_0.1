@@ -43,7 +43,7 @@ public class CompanyFacade implements CompanyFacadeInterface {
             em.getTransaction().begin();
             em.persist(c);
             em.getTransaction().commit();
-            return em.find(Company.class, c.getId());
+            return c;
         } finally {
             em.close();
         }
@@ -57,13 +57,13 @@ public class CompanyFacade implements CompanyFacadeInterface {
             List<Company> companies = em.createQuery("SELECT i FROM InfoEntity i WHERE TYPE(i) = :entityType")
                     .setParameter("entityType", Company.class)
                     .getResultList();
-            
+
             for (Company c : companies) {
-                if(c.getCvr().equals(cvr)){
-                    
+                if (c.getCvr().equals(cvr)) {
+
                     companiesWithCvr.add(c);
                 }
-            }  
+            }
         } finally {
             em.close();
         }
@@ -78,14 +78,14 @@ public class CompanyFacade implements CompanyFacadeInterface {
             List<Company> companies = em.createQuery("SELECT i FROM InfoEntity i WHERE TYPE(i) = :entityType")
                     .setParameter("entityType", Company.class)
                     .getResultList();
-            
+
             for (Company c : companies) {
-                for (Phone p: c.getPhones()) {
-                    if(p.getNumber().equals(phone)){
+                for (Phone p : c.getPhones()) {
+                    if (p.getNumber().equals(phone)) {
                         companiesWithPhone.add(c);
                     }
                 }
-            }  
+            }
         } finally {
             em.close();
         }
@@ -154,16 +154,16 @@ public class CompanyFacade implements CompanyFacadeInterface {
     public Company getCompanyById(long id) {
 
         EntityManager em = getEntityManager();
-    try {
-      Company c = em.find(Company.class,id);
-       if(c == null){
-        //throw new PersonNotFoundException("No Person found with provided id");
-      }
-       return c;
-    } finally {
-      em.close();
-    }
-        
+        try {
+            Company c = em.find(Company.class, id);
+            if (c == null) {
+                //throw new PersonNotFoundException("No Person found with provided id");
+            }
+            return c;
+        } finally {
+            em.close();
+        }
+
     }
 
 }
