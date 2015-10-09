@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    </head>
+    <body>
+        <h1>Documentation</h1>
+        <a href="REST_API.html">REST API </a>
+        <h3>test strategy:</h3>
+        <p></p>
+        <h3>inheritance strategy:</h3>
+        <h3>Error Responses:</h3>
+        <p>We use two HTTP status codes. 500 for Internal Server Errors, and 404 for person not found, company not found, and for all others. That way we have our bases covered.</p>
+        <p>When we get an exception, we map it, and our exception mappers can then convert it into an HTTP responds.</p>
+        <p>In our mappers in the exception package, you can see how we use Gson to map an exception to Json. This is made possible with the help of our ErrorMessage.java class.</p>
+        <h3>How to:</h3>
+        <a href="index.html">Go to Index Page</a>
+
+    </body>
+</html>
