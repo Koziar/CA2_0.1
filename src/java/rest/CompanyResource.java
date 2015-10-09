@@ -10,7 +10,7 @@ import entity.Address;
 import entity.CityInfo;
 import entity.Company;
 import entity.Phone;
-import exception.CompanyNotFoundException;
+//import exception.CompanyNotFoundException;
 import facade.CompanyFacade;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class CompanyResource {
 
     @Context
     private UriInfo context;
-
+    
     @Context
     ServletContext servletContext;
 
@@ -49,7 +49,8 @@ public class CompanyResource {
     public Response getCompaniesAllDetails() {
 
         List<Company> companies = facade.getCompanies();
-
+        
+        
         JsonArray jsonCompanies = new JsonArray();
 
         for (Company company : companies) {
@@ -57,12 +58,12 @@ public class CompanyResource {
             jsonCompany.addProperty("id", company.getId());
             jsonCompany.addProperty("name", company.getName());
             jsonCompany.addProperty("cvr", company.getCvr());
-            jsonCompany.addProperty("description", company.getDescription());
-            jsonCompany.addProperty("email", company.getEmail());
-            jsonCompany.addProperty("street", company.getAddress().getStreet());
-            jsonCompany.addProperty("zipcode", company.getAddress().getCityInfo().getZipCode());
             jsonCompany.addProperty("city", company.getAddress().getCityInfo().getCity());
-            jsonCompany.addProperty("additionalInfo", company.getAddress().getAdditionalInfo());
+            jsonCompany.addProperty("zipcode", company.getAddress().getCityInfo().getZipCode());
+            jsonCompany.addProperty("street", company.getAddress().getStreet());
+            //jsonCompany.addProperty("description", company.getDescription());
+            jsonCompany.addProperty("email", company.getEmail());
+            //jsonCompany.addProperty("additionalInfo", company.getAddress().getAdditionalInfo());
 
             JsonObject jsonPhone = new JsonObject();
             JsonArray jsonArray = new JsonArray();
@@ -83,13 +84,11 @@ public class CompanyResource {
     @GET
     @Path("complete/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCompanyById(@PathParam("id") long id) throws CompanyNotFoundException {
+    public Response getCompanyById(@PathParam("id") long id){
 
         Company company = facade.getCompanyById(id);
-
-        if (company == null) {
-            throw new CompanyNotFoundException("A company with the given ID does not exist!");
-        }
+        
+        //if(company == null)throw new CompanyNotFoundException("A company with the given ID does not exist!");
 
         JsonObject jsonCompany = new JsonObject();
         jsonCompany.addProperty("id", company.getId());
@@ -115,11 +114,11 @@ public class CompanyResource {
 
         return Response.ok(gson.toJson(jsonCompany)).build();
     }
-
+    
     @GET
     @Path("contactinfo")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCompaniesContactInfo() {
+    public Response getCompaniesContactInfo(){
 
         List<Company> companies = facade.getCompanies();
 
@@ -152,18 +151,16 @@ public class CompanyResource {
 
         return Response.ok(gson.toJson(jsonCompanies)).build();
     }
-
+    
     @GET
     @Path("contactinfo/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCompanyContactInfoById(@PathParam("id") long id) throws CompanyNotFoundException {
+    public Response getCompanyContactInfoById(@PathParam("id") long id){
 
         Company company = facade.getCompanyById(id);
-
-        if (company == null) {
-            throw new CompanyNotFoundException("A company with the given ID does not exist!");
-        }
-
+        
+        //if(company == null)throw new CompanyNotFoundException("A company with the given ID does not exist!");
+        
         JsonObject jsonCompany = new JsonObject();
         jsonCompany.addProperty("id", company.getId());
         jsonCompany.addProperty("name", company.getName());
@@ -188,19 +185,16 @@ public class CompanyResource {
 
         return Response.ok(gson.toJson(jsonCompany)).build();
     }
-
+    
     @GET
     @Path("complete/cvr/{cvr}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCompaniesByCVR(@PathParam("cvr") String cvr) throws CompanyNotFoundException {
+    public Response getCompaniesByCVR(@PathParam("cvr") String cvr){
 
         List<Company> companies = facade.getCompaniesByCVR(cvr);
-
-        if (companies == null) {
-            throw new CompanyNotFoundException("A company with the given CVR does not exist!");
-        } else if (companies.isEmpty()) {
-            throw new CompanyNotFoundException("A company with the given CVR does not exist!");
-        }
+        
+//        if(companies == null)throw new CompanyNotFoundException("A company with the given CVR does not exist!");
+//        else if(companies.isEmpty())throw new CompanyNotFoundException("A company with the given CVR does not exist!");
 
         JsonArray jsonCompanies = new JsonArray();
 
@@ -231,19 +225,16 @@ public class CompanyResource {
 
         return Response.ok(gson.toJson(jsonCompanies)).build();
     }
-
+    
     @GET
     @Path("complete/phone/{phone}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCompaniesByPhone(@PathParam("phone") String phone) throws CompanyNotFoundException {
+    public Response getCompaniesByPhone(@PathParam("phone") String phone){
 
         List<Company> companies = facade.getCompaniesByPhone(phone);
-
-        if (companies == null) {
-            throw new CompanyNotFoundException("A company with the given Phone does not exist!");
-        } else if (companies.isEmpty()) {
-            throw new CompanyNotFoundException("A company with the given Phone does not exist!");
-        }
+        
+//        if(companies == null)throw new CompanyNotFoundException("A company with the given Phone does not exist!");
+//        else if(companies.isEmpty())throw new CompanyNotFoundException("A company with the given Phone does not exist!");
 
         JsonArray jsonCompanies = new JsonArray();
 
@@ -279,7 +270,7 @@ public class CompanyResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createNewCompany(String newPerson) {
-
+        
         JsonObject jo = new JsonParser().parse(newPerson).getAsJsonObject();
         //
         String name = jo.get("name").getAsString();
@@ -291,31 +282,33 @@ public class CompanyResource {
         String street = jo.get("street").getAsString();
         int zipcode = jo.get("zipcode").getAsInt();
         String city = jo.get("city").getAsString();
+        String additionalInfoAddress = jo.get("additionalInfoAddress").getAsString();
         String additionalInfo = jo.get("additionalInfo").getAsString();
-
+        
         JsonArray jPhones = new JsonArray();
         jPhones = jo.getAsJsonArray("phones");
         ArrayList<Phone> phones = new ArrayList();
-
+        
         for (JsonElement jp : jPhones) {
-            Phone p = new Phone(jp.getAsJsonObject().get("number").getAsString(),
+            Phone p = new Phone(jp.getAsJsonObject().get("number").getAsString(), 
                     jp.getAsJsonObject().get("description").getAsString());
-            phones.add(p);
+            phones.add(p); 
         }
         Company newCompany = new Company(name, description, cvr, numEmployees, marketValue, email);
-        Address newCompanyAddress = new Address(street, additionalInfo);
+        Address newCompanyAddress = new Address(street, additionalInfoAddress);
         CityInfo newCompanyAddressCityInfo = new CityInfo(zipcode, city);
         newCompanyAddress.addCityInfo(newCompanyAddressCityInfo);
-
+        
         for (Phone phone : phones) {
             newCompany.addPhone(phone);
         }
         newCompany.addAddress(newCompanyAddress);
-
+        
         Company createdCompany = facade.addCompany(newCompany);
         //=========================================================
-
+        
         //if(company == null)throw new CompanyNotFoundException("A company with the given ID does not exist!");
+
         JsonObject jsonCompany = new JsonObject();
         jsonCompany.addProperty("id", createdCompany.getId());
         jsonCompany.addProperty("name", createdCompany.getName());
@@ -344,7 +337,7 @@ public class CompanyResource {
         return Response.ok(gson.toJson(jsonCompany)).build();
 
     }
-
+    
     @PUT
     @Consumes("application/json")
     public void putJson(String content) {
