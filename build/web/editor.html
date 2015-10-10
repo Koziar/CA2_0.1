@@ -11,6 +11,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
         <script src="js/jsCompany.js" type="text/javascript"></script>
+        <script src="js/jsPerson.js" type="text/javascript"></script>
     </head>
     <body>
         <div class="container">
@@ -25,14 +26,17 @@
                 </div>
             </div>
             <div class="row">
-                <button type="button" id="createNewCompanyOpenbtn" class="btn btn-info" data-toggle="modal" data-target="#myModal">
-                    Create new company
+                <button type="button" id="createNewCompanyOpenbtn" class="btn btn-info" data-toggle="modal" data-target="#companyModel">
+                    Add new company
+                </button>
+                <button type="button" id="createNewPersonOpenbtn" class="btn btn-info" data-toggle="modal" data-target="#personModel">
+                    Add new person
                 </button>
                 <!-- Modal -->
-                <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal fade" id="companyModel" role="dialog">
                     <div class="modal-dialog">
 
-                        <!-- Modal content-->
+                        <!-- Modal Company content-->
                         <form role="form">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -64,8 +68,48 @@
                         </form>
                     </div>
                 </div>
+                <div class="modal fade" id="personModel" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal Person content-->
+                        <form role="form">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Fill in the fields to create a new Company</h4>
+                                </div>
+                                <div class="modal-body">                               
+                                    
+                                    <input type="text" id="newPersonFirstName" class="form-control" placeholder="First name" required /><br/>
+                                    <input type="text" id="newPersonLastName" class="form-control" placeholder="Last name" required/><br/>
+                                    <input type="text" id="newPersonemail" class="form-control" placeholder="E-mail address" required/><br/>
+                                    <input type="text" id="newPersonPhone1" class="form-control" placeholder="Phone" required/><br/>
+                                    <input type="text" id="newPersonPhone1description" class="form-control" placeholder="Phone's desciprion" required/><br/>
+                                    <input type="text" id="newPersonPhone2" class="form-control" placeholder="Additional phone"/><br/>
+                                    <input type="text" id="newPersonPhone2description" class="form-control" placeholder="Phone's desciprion" required/><br/>
+                                    <input type="text" id="newPersonCity" class="form-control" placeholder="City" required/><br/>
+                                    <input type="text" id="newPersonZipcode" class="form-control" placeholder="Zipcode" required/><br/>
+                                    <input type="text" id="newPersonStreet" class="form-control" placeholder="Street" required/><br/>
+                                    <input type="text" id="newPersonAddressAdditionalInfo" class="form-control" placeholder="Additional info for the address" required/><br/>
+                                    <input type="text" id="newPersonHobby1" class="form-control" placeholder="Hobby 1" required/><br/>
+                                    <input type="text" id="newPersonHobbyDescription1" class="form-control" placeholder="Hobby description" required/><br/>
+                                    <input type="text" id="newPersonHobby2" class="form-control" placeholder="Hobby 2" required/><br/>
+                                    <input type="text" id="newPersonHobbyDescription2" class="form-control" placeholder="Hobby description" required/><br/>
+                                    <input type="text" id="newPersonHobby3" class="form-control" placeholder="Hobby 3" required/><br/>
+                                    <input type="text" id="newPersonHobbyDescription3" class="form-control" placeholder="Hobby description" required/><br/>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-info" data-dismiss="modal" id="createNewPersonbtn">Create</button>
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            
+
+
+
         </div>
     </body>
 </html>
